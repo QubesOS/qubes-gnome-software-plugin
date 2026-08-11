@@ -1,9 +1,13 @@
 #!/usr/bin/make -f
+# -*- makefile -*-
 
-export DESTDIR=$(shell pwd)/debian/tmp
+CONFARGS = --werror -Dqubes=true
 
 %:
 	dh $@
 
-override_dh_auto_install:
-	make install-vm
+# dh_make generated override targets.
+# This is an example for Cmake (see <https://bugs.debian.org/641051>).
+override_dh_auto_configure:
+	echo "option('qubes', type: 'boolean', value: false, description: 'Qubes support')" > meson_options.txt && \
+	dh_auto_configure -- $(CONFARGS);

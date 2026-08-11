@@ -1,0 +1,2 @@
+usr/lib/*/gnome-software/plugins-*/libgs_plugin_qubes.so
+usr/share/metainfo/org.gnome.Software.Plugin.Qubes.metainfo.xml
