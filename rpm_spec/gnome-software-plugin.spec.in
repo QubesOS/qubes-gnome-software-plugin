@@ -1,9 +1,9 @@
 %global debug_package %{nil}
-Name: qubes-skeleton-dom0
+Name: qubes-gnome-software-plugin-vm
 Version: @VERSION@
 Release: @REL@%{?dist}
 
-Summary: Qubes Skeleton package for dom0
+Summary: Qubes gnome-software-plugin package for VM
 License: GPLv2+
 URL: https://www.qubes-os.org/
 
@@ -12,7 +12,7 @@ Source0: %{name}-%{version}.tar.gz
 BuildRequires: make
 
 %description
-Qubes Skeleton package for dom0.
+Qubes gnome-software-plugin package for VM.
 
 %prep
 %setup -q
@@ -21,11 +21,10 @@ Qubes Skeleton package for dom0.
 #something to build?
 
 %install
-make install-dom0 DESTDIR=$RPM_BUILD_ROOT
+make install-vm DESTDIR=$RPM_BUILD_ROOT
 
 %files
-/usr/lib/qubes/skeleton/README
-/usr/lib/qubes/skeleton/skeleton.sh
+/usr/lib/qubes/gnome-software-plugin/gnome-software-plugin.sh
 
 %changelog
 @CHANGELOG@
