@@ -1,3 +1,6 @@
+# this is not a library version
+%define gs_plugin_version 23
+
 %global debug_package %{nil}
 Name: qubes-gnome-software-plugin-vm
 Version: @VERSION@
@@ -8,23 +11,35 @@ License: GPLv2+
 URL: https://www.qubes-os.org/
 
 Source0: %{name}-%{version}.tar.gz
+Source1: meson.build
 
-BuildRequires: make
+BuildRequires: meson
+BuildRequires: gcc
+BuildRequires: gnome-software-devel
+BuildRequires: gsettings-desktop-schemas-devel
+
+Requires: gnome-software
 
 %description
 Qubes gnome-software-plugin package for VM.
 
 %prep
-%setup -q
+%autosetup -p1 -n %{name}-%{version}
+# override meson.build to handle just qubes part
+cp %{SOURCE1} ./
+echo "option('qubes', type: 'boolean', value: false, description: 'Qubes support')" > meson_options.txt
 
-#%build
-#something to build?
+%build
+%meson \
+    -Dqubes=true
+%meson_build
 
 %install
-make install-vm DESTDIR=$RPM_BUILD_ROOT
+%meson_install
 
 %files
-/usr/lib/qubes/gnome-software-plugin/gnome-software-plugin.sh
+%{_libdir}/gnome-software/plugins-%{gs_plugin_version}/libgs_plugin_qubes.so
+%{_datadir}/metainfo/org.gnome.Software.Plugin.Qubes.metainfo.xml
 
 %changelog
 @CHANGELOG@

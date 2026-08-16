@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>org.gnome.Software.Plugin.Qubes</id>
+  <extends>org.gnome.Software.desktop</extends>
+  <name>Qubes integration for Gnome Software</name>
+</component>
