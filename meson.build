@@ -10,6 +10,7 @@ gnome_software_dep = dependency('gnome-software')
 glib_dep = dependency('glib-2.0')
 gobject_dep = dependency('gobject-2.0')
 gio_dep = dependency('gio-2.0')
+gtk_dep = dependency('gtk4')
 gsettings_desktop_schemas = dependency('gsettings-desktop-schemas')
 
 gs_plugin_dir = gnome_software_dep.get_variable('plugindir')
@@ -27,7 +28,7 @@ plugin_qubes_lib = shared_library(
   install : true,
   install_dir: gs_plugin_dir,
   c_args : cargs,
-  dependencies : [gnome_software_dep, glib_dep, gobject_dep, gio_dep, gsettings_desktop_schemas],
+  dependencies : [gnome_software_dep, glib_dep, gobject_dep, gio_dep, gtk_dep, gsettings_desktop_schemas],
 )
 
 install_data(
