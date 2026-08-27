@@ -10,14 +10,41 @@ struct _GsPluginQubes {
 G_DEFINE_TYPE (GsPluginQubes, gs_plugin_qubes, GS_TYPE_PLUGIN)
 
 static void
+gs_plugin_qubes_window_close (GtkWindow    *window,
+                              gpointer    user_data)
+{
+    g_message("Window closed! Exiting Gnome Software");
+    g_application_quit (G_APPLICATION (user_data));
+}
+
+static void
 gs_plugin_qubes_init (GsPluginQubes *self)
 {
     GsPlugin *plugin = GS_PLUGIN (self);
+    GApplication *app = g_application_get_default ();
+    GList *windows;
+    GtkWindow *window;
 
     gs_plugin_add_rule (plugin, GS_PLUGIN_RULE_RUN_AFTER, "appstream");
     gs_plugin_add_rule (plugin, GS_PLUGIN_RULE_RUN_AFTER, "packagekit");
     gs_plugin_add_rule (plugin, GS_PLUGIN_RULE_RUN_AFTER, "flatpak");
     gs_plugin_add_rule (plugin, GS_PLUGIN_RULE_RUN_BEFORE, "icons");
+
+    if (!GTK_IS_APPLICATION (app))
+        return;
+
+    windows = gtk_application_get_windows (GTK_APPLICATION (app));
+
+    if (windows == NULL){
+        g_warning ("Failed to find windows");
+        return;
+    }
+
+    window = windows->data;
+
+    g_signal_connect_object (window, "hide",
+        G_CALLBACK (gs_plugin_qubes_window_close),
+        app, 0);
 }
 
 // NOTE: Debian and Fedora may run different plugin API versions
